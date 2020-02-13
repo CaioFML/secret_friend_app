@@ -1,13 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe CampaignsController, type: :controller do
-  include Devise::Test::ControllerHelpers
-
   before(:each) do
     # request.env["HTTP_ACCEPT"] = 'application/json'
 
     @request.env["devise.mapping"] = Devise.mappings[:user]
-    @current_user = FactoryBot.create(:user)
+    @current_user = create(:user)
     sign_in @current_user
   end
 
@@ -19,7 +17,6 @@ RSpec.describe CampaignsController, type: :controller do
   end
 
   describe "GET #show" do
-
     context "campaing exists" do
       context "User is the owner of the campaing" do
         it "Returns success" do
@@ -46,7 +43,6 @@ RSpec.describe CampaignsController, type: :controller do
       end
     end
   end
-
 
   describe "POST #create" do
     before(:each) do
@@ -154,7 +150,7 @@ RSpec.describe CampaignsController, type: :controller do
           post :raffle, params: {id: @campaign.id}
         end
 
-        it "returns http success" do
+        it "returns http unprocessable_entity" do
           expect(response).to have_http_status(:unprocessable_entity)
         end
       end
