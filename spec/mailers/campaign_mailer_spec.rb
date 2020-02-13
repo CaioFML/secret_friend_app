@@ -2,6 +2,7 @@ require "rails_helper"
 
 RSpec.describe CampaignMailer, type: :mailer do
   describe "raffle" do
+
     before do
       @campaign = create(:campaign)
       @member   = create(:member, campaign: @campaign)
