@@ -9,7 +9,7 @@ class Member < ApplicationRecord
       random_token = SecureRandom.urlsafe_base64(nil, false)
       break random_token unless Member.exists?(token: random_token)
     end
-    self.save!
+    save!
   end
 
   protected
