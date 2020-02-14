@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe RaffleService do
-
   before :each do
     @campaign = create(:campaign, status: :pending)
   end
@@ -40,7 +39,6 @@ describe RaffleService do
       it "a member x don't get a member y that get the member x" do
         # Desafio
       end
-
     end
 
     context "when don't has more then two members" do
@@ -51,7 +49,7 @@ describe RaffleService do
         @response = RaffleService.new(@campaign).call
       end
 
-      it "raise error" do
+      it "return false" do
         expect(@response).to eql(false)
       end
     end
