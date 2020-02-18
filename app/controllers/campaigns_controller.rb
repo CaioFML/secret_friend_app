@@ -61,7 +61,7 @@ class CampaignsController < ApplicationController
   end
 
   def campaign_params
-    params.require(:campaign).permit(:title, :description).merge(user: current_user)
+    params.require(:campaign).permit(:title, :description, :event_date, :event_hour, :location).merge(user: current_user)
   end
 
   def is_owner?
