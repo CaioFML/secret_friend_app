@@ -55,4 +55,57 @@ RSpec.describe MembersController, type: :controller do
       end
     end
   end
+
+  describe "PUT #update" do
+    before do
+      request.env["HTTP_ACCEPT"] = 'application/json'
+      put :update, params: { id: member.id, member: member_params }
+    end
+
+    context "when member is in the campaign owner" do
+      let(:member) { create(:member, campaign: create(:campaign, user: current_user)) }
+      let(:member_params) do
+        { name: "Caio", email: "caio@gmail.com" }
+      end
+
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it "updates member attributes" do
+        expect(Member.last.name).to eq member_params[:name]
+        expect(Member.last.email).to eq member_params[:email]
+      end
+
+      it "returns true in json body" do
+        expect(response.body).to eq "true"
+      end
+    end
+
+    context "when member isn't in the campaign owner" do
+      let(:member) { create(:member) }
+
+      it "returns http forbidden" do
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
+  end
+
+  describe "GET #opened" do
+    before do
+      member.set_pixel
+      get :opened, params: { token: member.token }
+      member.reload
+    end
+
+    let(:member) { create(:member) }
+
+    it "returns http success" do
+      expect(response).to have_http_status(:success)
+    end
+
+    it "sets member to opened" do
+      expect(member.open).to be true
+    end
+  end
 end
