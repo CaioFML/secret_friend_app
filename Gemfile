@@ -29,10 +29,12 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 
 gem 'devise'
-gem 'materialize-sass', '~> 0.99.0'
+gem 'materialize-sass', '~> 0.98.0'
 gem 'material_icons'
 gem 'redis'
 gem 'sidekiq'
+gem 'inky-rb', require: 'inky'
+gem 'premailer-rails'
 
 group :development, :test do
   gem "factory_bot_rails"
