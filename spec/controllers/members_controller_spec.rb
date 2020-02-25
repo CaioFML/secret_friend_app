@@ -12,7 +12,7 @@ RSpec.describe MembersController, type: :controller do
   let(:member) { build(:member) }
   let(:member_params) { member.slice(:name, :email, :campaign_id) }
 
-  describe "#create" do
+  describe "POST #create" do
     before do
       request.env["HTTP_ACCEPT"] = 'application/json'
       post :create, params: { member: member_params }
@@ -26,6 +26,23 @@ RSpec.describe MembersController, type: :controller do
 
     it "renders a json with member" do
       expect(response.body).to eq Member.last.to_json
+    end
+  end
+
+  describe "DELETE #destroy" do
+    before do
+      request.env["HTTP_ACCEPT"] = 'application/json'
+      delete :destroy, params: { id: member.id }
+    end
+
+    let(:member) { create(:member, campaign: create(:campaign, user: current_user)) }
+
+    it "returns http success" do
+      expect(response).to have_http_status(:success)
+    end
+
+    it "returns true in json body" do
+      expect(response.body).to eq "true"
     end
   end
 end
