@@ -35,14 +35,24 @@ RSpec.describe MembersController, type: :controller do
       delete :destroy, params: { id: member.id }
     end
 
-    let(:member) { create(:member, campaign: create(:campaign, user: current_user)) }
+    context "when member is in the campaign owner" do
+      let(:member) { create(:member, campaign: create(:campaign, user: current_user)) }
 
-    it "returns http success" do
-      expect(response).to have_http_status(:success)
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it "returns true in json body" do
+        expect(response.body).to eq "true"
+      end
     end
 
-    it "returns true in json body" do
-      expect(response.body).to eq "true"
+    context "when member isn't in the campaign owner" do
+      let(:member) { create(:member) }
+
+      it "return http forbidden" do
+        expect(response).to have_http_status(:forbidden)
+      end
     end
   end
 end
